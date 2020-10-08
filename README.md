@@ -1,1 +1,3 @@
-This is a starter template for [Learn Next.js](https://nextjs.org/learn).
+אתר להצגת הסטטוס המעודכן של חולי קורונה בירוחם, כפי שמתעדכן ע"י המועצה.
+
+Built with Next.js and Vercel.com

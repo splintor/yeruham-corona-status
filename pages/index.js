@@ -1,65 +1,76 @@
 import Head from 'next/head'
+import getConfig from 'next/config'
+const { serverRuntimeConfig } = getConfig()
+import fs from 'fs'
+import path from 'path'
+import React from 'react';
 
-export default function Home() {
+export const getServerSideProps = async ({ query }) => {
+  const files = fs.readdirSync(path.join(serverRuntimeConfig.PROJECT_ROOT, './public/images'))
+  return {
+    props: {
+      dates: files.map(f => f.replace('.jpeg', '')).sort().reverse(),
+      date: query && query.date || null,
+    },
+  }
+}
+
+const DateLink = ({date}) =>
+  date ? <a href={`?date=${date}`}>{new Date(date).toLocaleDateString()}</a> : <span/>
+
+export default function Home({ date: dateParam, dates }) {
+  const date = dateParam || dates[0];
+  const dateIndex = dates.indexOf(date)
+  let title = 'סטטוס הקורונה בירוחם'
+  if (dateParam) {
+    title += ` נכון לתאריך ${new Date(date).toLocaleDateString()}`
+  }
+
+  const prevDate = dateIndex !== -1 && dateIndex < dates.length - 1 ? dates[dateIndex + 1] : null;
+  const nextDate = dateIndex > 0 ? dates[dateIndex - 1] : null;
+
+  const imagePath = `/images/${date}.jpeg`
+
   return (
     <div className="container">
       <Head>
-        <title>Create Next App</title>
+        <title>{title}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main>
-        <h1 className="title">
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+        <h1><a href="/">סטטוס הקורונה בירוחם</a></h1>
+        <h3>נכון לתאריך <span className={'date' + (dateIndex > 0 ? ' past' : '')}>{new Date(date).toLocaleString()}</span></h3>
+        <nav>
+          {prevDate && <span><DateLink date={prevDate}/>&nbsp;&#8658;</span>}
+          {nextDate && <span>&#8656;&nbsp;<DateLink date={nextDate}/></span>}
+        </nav>
+        <div className="content">
+          <img src={imagePath} />
+        </div>
 
-        <p className="description">
-          Get started by editing <code>pages/index.js</code>
-        </p>
-
-        <div className="grid">
-          <a href="https://nextjs.org/docs" className="card">
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className="card">
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className="card"
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="card"
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+        <div className="description">
+          הנתונים באתר מגיעים מרכזת הבריאות של המועצה ואמורים להיות מדויקים יותר מהנתונים שמתפרסמים ב<a href="https://datadashboard.health.gov.il/COVID-19/general">אתר משרד הבריאות</a> כיוון שבמועצה מעודכנים מי מהחולים באמת נמצא בירוחם ומי כבר החלים.
+          <br/>
+          אפשר לראות <a href="https://lironcoil.wixsite.com/mysite-2">כאן</a> את רשימת המקומות שבהם שהו חולי קורונה בירוחם.
         </div>
       </main>
 
-      <footer>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className="logo" />
-        </a>
-      </footer>
-
       <style jsx>{`
+        h1 { margin: 10px 0 0 0; }}
+        h1 a {
+          text-decoration: none;
+          color: black;
+        }
+        
+        .date {
+          font-weight: bold;
+        }
+        
+        .past.date {
+          color: red;
+        }
+        
         .container {
           min-height: 100vh;
           padding: 0 0.5rem;
@@ -68,131 +79,35 @@ export default function Home() {
           justify-content: center;
           align-items: center;
         }
-
+        
         main {
-          padding: 5rem 0;
           flex: 1;
           display: flex;
           flex-direction: column;
           justify-content: center;
           align-items: center;
         }
-
-        footer {
-          width: 100%;
-          height: 100px;
-          border-top: 1px solid #eaeaea;
+        
+        nav {
+          width: clamp(50vw, 400px, 100vw);
           display: flex;
-          justify-content: center;
-          align-items: center;
+          justify-content: space-around;
         }
-
-        footer img {
-          margin-left: 0.5rem;
-        }
-
-        footer a {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        a {
-          color: inherit;
-          text-decoration: none;
-        }
-
-        .title a {
-          color: #0070f3;
-          text-decoration: none;
-        }
-
-        .title a:hover,
-        .title a:focus,
-        .title a:active {
-          text-decoration: underline;
-        }
-
-        .title {
-          margin: 0;
-          line-height: 1.15;
-          font-size: 4rem;
-        }
-
-        .title,
+        
         .description {
-          text-align: center;
+          width: clamp(35vw, 500px, 90vw);
         }
-
-        .description {
-          line-height: 1.5;
-          font-size: 1.5rem;
-        }
-
-        code {
-          background: #fafafa;
-          border-radius: 5px;
-          padding: 0.75rem;
-          font-size: 1.1rem;
-          font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
-            DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
-        }
-
-        .grid {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-wrap: wrap;
-
-          max-width: 800px;
-          margin-top: 3rem;
-        }
-
-        .card {
-          margin: 1rem;
-          flex-basis: 45%;
-          padding: 1.5rem;
-          text-align: left;
-          color: inherit;
-          text-decoration: none;
-          border: 1px solid #eaeaea;
-          border-radius: 10px;
-          transition: color 0.15s ease, border-color 0.15s ease;
-        }
-
-        .card:hover,
-        .card:focus,
-        .card:active {
-          color: #0070f3;
-          border-color: #0070f3;
-        }
-
-        .card h3 {
-          margin: 0 0 1rem 0;
-          font-size: 1.5rem;
-        }
-
-        .card p {
-          margin: 0;
-          font-size: 1.25rem;
-          line-height: 1.5;
-        }
-
-        .logo {
-          height: 1em;
-        }
-
-        @media (max-width: 600px) {
-          .grid {
-            width: 100%;
-            flex-direction: column;
-          }
+        
+        main img {
+          margin-block-start: 5px;
+          height: calc(100vh - 240px);
         }
       `}</style>
 
       <style jsx global>{`
         html,
         body {
+          direction: rtl;
           padding: 0;
           margin: 0;
           font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,

@@ -1,37 +1,34 @@
 import Head from 'next/head'
 import { promises as fs } from 'fs';
 import path from 'path'
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-export const getServerSideProps = async ({ query }) => {
-  let files = [];
-  try {
-    files = await fs.readdir(path.join(process.cwd(), 'images'))
-  } catch (e) {
-    console.error('An error has occured', e);
-  }
-  return {
-    props: {
-      dates: files.map(f => f.replace('.jpeg', '')).sort().reverse(),
-      date: query && query.date || null,
-    },
-  }
+export async function getStaticProps({ params }) {
+  const files = await fs.readdir(path.join(process.cwd(), 'public', 'images'))
+  return { props: { dates: files.map(f => f.replace('.jpeg', '')).sort().reverse() } }
 }
 
 const DateLink = ({date}) =>
   date ? <a href={`?date=${date}`}>{new Date(date).toLocaleDateString()}</a> : <span/>
 
-export default function Home({ date: dateParam, dates }) {
-  const date = dateParam || dates[0];
-  const dateIndex = dates.indexOf(date)
-  let title = 'סטטוס הקורונה בירוחם'
-  if (dateParam) {
-    title += ` נכון לתאריך ${new Date(date).toLocaleDateString()}`
+export default function Home({ dates }) {
+  const [date, setDate] = useState();
+  const [title, setTitle]  = useState('סטטוס הקורונה בירוחם')
+  useEffect(() => {
+    const dateParam = location.search.split(/[?&]/).map(p => p.split('=')).find(([key]) => key === 'date')
+    if (dateParam) {
+      setDate(dateParam[1])
+      setTitle(` סטטוס הקורונה בירוחם נכון לתאריך ${new Date(dateParam[1]).toLocaleDateString()}`)
+    }
+  })
+
+  if (!date) {
+    return null
   }
 
+  const dateIndex = dates.indexOf(date)
   const prevDate = dateIndex !== -1 && dateIndex < dates.length - 1 ? dates[dateIndex + 1] : null;
   const nextDate = dateIndex > 0 ? dates[dateIndex - 1] : null;
-
   const imagePath = `/images/${date}.jpeg`
 
   return (

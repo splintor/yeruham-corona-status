@@ -1,12 +1,11 @@
 import Head from 'next/head'
 import getConfig from 'next/config'
-const { serverRuntimeConfig } = getConfig()
 import fs from 'fs'
 import path from 'path'
 import React from 'react';
 
 export const getServerSideProps = async ({ query }) => {
-  const files = fs.readdirSync(path.join(serverRuntimeConfig.PROJECT_ROOT, './public/images'))
+  const files = fs.readdirSync(path.join(process.cwd(), 'images'))
   return {
     props: {
       dates: files.map(f => f.replace('.jpeg', '')).sort().reverse(),

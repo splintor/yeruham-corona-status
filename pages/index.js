@@ -3,8 +3,9 @@ import { promises as fs } from 'fs';
 import path from 'path'
 import React, { useEffect, useState } from 'react';
 
-export async function getStaticProps({ params }) {
+export async function getStaticProps() {
   const files = await fs.readdir(path.join(process.cwd(), 'public', 'images'))
+  console.log('files', files);
   return { props: { dates: files.map(f => f.replace('.jpeg', '')).sort().reverse() } }
 }
 

@@ -5,7 +5,6 @@ import React, { useEffect, useState } from 'react';
 
 export async function getStaticProps() {
   const files = await fs.readdir(path.join(process.cwd(), 'public', 'images'))
-  console.log('files', files);
   return { props: { dates: files.map(f => f.replace('.jpeg', '')).sort().reverse() } }
 }
 
@@ -20,6 +19,8 @@ export default function Home({ dates }) {
     if (dateParam) {
       setDate(dateParam[1])
       setTitle(` סטטוס הקורונה בירוחם נכון לתאריך ${new Date(dateParam[1]).toLocaleDateString()}`)
+    } else {
+      setDate(dates[0])
     }
   })
 

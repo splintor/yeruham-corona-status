@@ -1,11 +1,15 @@
 import Head from 'next/head'
-import getConfig from 'next/config'
-import fs from 'fs'
+import { promises as fs } from 'fs';
 import path from 'path'
 import React from 'react';
 
 export const getServerSideProps = async ({ query }) => {
-  const files = fs.readdirSync(path.join(process.cwd(), 'images'))
+  let files = [];
+  try {
+    files = await fs.readdir(path.join(process.cwd(), 'images'))
+  } catch (e) {
+    console.error('An error has occured', e);
+  }
   return {
     props: {
       dates: files.map(f => f.replace('.jpeg', '')).sort().reverse(),

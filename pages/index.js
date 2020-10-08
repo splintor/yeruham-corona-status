@@ -24,7 +24,7 @@ export default function Home({ dates }) {
   })
 
   if (!date) {
-    return null
+    return 'טוען...'
   }
 
   const dateIndex = dates.indexOf(date)

@@ -2,6 +2,7 @@ import Head from 'next/head'
 import { promises as fs } from 'fs';
 import path from 'path'
 import React, { useEffect, useState } from 'react';
+import GithubCorner from 'react-github-corner';
 
 export async function getStaticProps() {
   const files = await fs.readdir(path.join(process.cwd(), 'public', 'images'))
@@ -40,6 +41,7 @@ export default function Home({ dates }) {
       </Head>
 
       <main>
+        <GithubCorner href="https://github.com/splintor/yeruham-corona-status" size={40} target="YerhuamCoronaStatusGitHubProject"/>
         <h1><a href="/">סטטוס הקורונה בירוחם</a></h1>
         <h3>נכון לתאריך <span className={'date' + (dateIndex > 0 ? ' past' : '')}>{new Date(date).toLocaleString()}</span></h3>
         <nav>

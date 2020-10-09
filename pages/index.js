@@ -43,6 +43,8 @@ export default function Home({ dates }) {
       <main>
         <GithubCorner href="https://github.com/splintor/yeruham-corona-status" size={40} target="YerhuamCoronaStatusGitHubProject"/>
         <h1><a href="/">סטטוס הקורונה בירוחם</a></h1>
+        {
+          date ? <>
         <h3>נכון לתאריך <span className={'date' + (dateIndex > 0 ? ' past' : '')}>{new Date(date).toLocaleString()}</span></h3>
         <nav>
           {prevDate && <span><DateLink date={prevDate}/>&nbsp;&#8658;</span>}
@@ -60,6 +62,8 @@ export default function Home({ dates }) {
           האתר מתוחזק ע"י <a href="mailto:splintor@gmail.com">שמוליק פלינט</a> ואינו קשור למועצה המקומית ירוחם.
         </b>
         </div>
+          </> : <h4>טוען...</h4>
+        }
       </main>
 
       <style jsx>{`

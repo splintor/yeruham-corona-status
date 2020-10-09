@@ -24,10 +24,6 @@ export default function Home({ dates }) {
     }
   })
 
-  if (!date) {
-    return 'טוען...'
-  }
-
   const dateIndex = dates.indexOf(date)
   const prevDate = dateIndex !== -1 && dateIndex < dates.length - 1 ? dates[dateIndex + 1] : null;
   const nextDate = dateIndex > 0 ? dates[dateIndex - 1] : null;
@@ -37,6 +33,9 @@ export default function Home({ dates }) {
     <div className="container">
       <Head>
         <title>{title}</title>
+        <meta property="og:title" content={title} key="pageTitle"/>
+        <meta property="og:url" content="https://yeruham-corona-status.now.sh" key="url"/>
+        <meta property="og:image" content={`https://yeruham-corona-status.now.sh/logo.png`} key="image"/>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

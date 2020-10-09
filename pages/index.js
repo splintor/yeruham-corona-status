@@ -86,7 +86,6 @@ export default function Home({ dates }) {
           padding: 0 0.5rem;
           display: flex;
           flex-direction: column;
-          justify-content: center;
           align-items: center;
         }
         
@@ -94,7 +93,6 @@ export default function Home({ dates }) {
           flex: 1;
           display: flex;
           flex-direction: column;
-          justify-content: center;
           align-items: center;
         }
         

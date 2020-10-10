@@ -9,8 +9,18 @@ export async function getStaticProps() {
   return { props: { dates: files.map(f => f.replace('.jpeg', '')).sort().reverse() } }
 }
 
+function formatDate(d) {
+  const date = new Date(d)
+  return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
+}
+
+function formatDateAndTime(d) {
+  const date = new Date(d)
+  return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`
+}
+
 const DateLink = ({date}) =>
-  date ? <a href={`?date=${date}`}>{new Date(date).toLocaleDateString()}</a> : <span/>
+  date ? <a href={`?date=${date}`}>{formatDate(date)}</a> : <span/>
 
 export default function Home({ dates }) {
   const [date, setDate] = useState();
@@ -19,7 +29,7 @@ export default function Home({ dates }) {
     const dateParam = location.search.split(/[?&]/).map(p => p.split('=')).find(([key]) => key === 'date')
     if (dateParam) {
       setDate(dateParam[1])
-      setTitle(` סטטוס הקורונה בירוחם נכון לתאריך ${new Date(dateParam[1]).toLocaleDateString()}`)
+      setTitle(` סטטוס הקורונה בירוחם נכון לתאריך ${formatDateAndTime(dateParam[1])}`)
     } else {
       setDate(dates[0])
     }
@@ -45,7 +55,7 @@ export default function Home({ dates }) {
         <h1><a href="/">סטטוס הקורונה בירוחם</a></h1>
         {
           date ? <>
-        <h3>נכון לתאריך <span className={'date' + (dateIndex > 0 ? ' past' : '')}>{new Date(date).toLocaleString()}</span></h3>
+        <h3>נכון לתאריך <span className={'date' + (dateIndex > 0 ? ' past' : '')}>{formatDateAndTime(date)}</span></h3>
         <nav>
           {prevDate && <span><DateLink date={prevDate}/>&nbsp;&#8658;</span>}
           {nextDate && <span>&#8656;&nbsp;<DateLink date={nextDate}/></span>}

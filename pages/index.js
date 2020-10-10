@@ -48,6 +48,14 @@ export default function Home({ dates }) {
         <meta property="og:url" content="https://yeruham-corona-status.now.sh" key="url"/>
         <meta property="og:image" content={`https://yeruham-corona-status.now.sh/logo.png`} key="image"/>
         <link rel="icon" href="/favicon.ico" />
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-180152901-1"/>
+        <script>
+          window.dataLayer = window.dataLayer || []
+          function gtag(){dataLayer.push(arguments)}
+          gtag('js', new Date())
+          gtag('config', 'UA-180152901-1')
+        </script>
+
       </Head>
 
       <main>
@@ -61,7 +69,7 @@ export default function Home({ dates }) {
           {nextDate && <span>&#8656;&nbsp;<DateLink date={nextDate}/></span>}
         </nav>
         <div className="content">
-          <img src={imagePath} />
+          <img src={imagePath}  alt="סטטוס הקורונה בירוחם"/>
         </div>
 
         <div className="description">

@@ -14,9 +14,11 @@ function formatDate(d) {
   return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
 }
 
+const pad = n => ('0' + n).substr(-2)
+
 function formatDateAndTime(d) {
   const date = new Date(d)
-  return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`
+  return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${pad(date.getHours())}:${pad(date.getMinutes())}`
 }
 
 const DateLink = ({date}) =>

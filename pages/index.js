@@ -82,6 +82,9 @@ export default function Home({ files }) {
         <div className="content">
           <img src={imagePath}  alt="סטטוס הקורונה בירוחם"/>
         </div>
+        <div>
+          <img src="check-times.jpeg"/>
+        </div>
 
         <div className="description">
           הנתונים באתר מגיעים מרכזת הבריאות של המועצה ואמורים להיות מדויקים יותר מהנתונים שמתפרסמים ב<a href="https://datadashboard.health.gov.il/COVID-19/general">אתר משרד הבריאות</a> כיוון שבמועצה מעודכנים מי מהחולים באמת נמצא בירוחם ומי כבר החלים.

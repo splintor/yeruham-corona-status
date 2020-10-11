@@ -6,7 +6,7 @@ import GithubCorner from 'react-github-corner';
 
 export async function getStaticProps() {
   const files = await fs.readdir(path.join(process.cwd(), 'public', 'images'))
-  return { props: { dates: files.map(f => f.replace('.jpeg', '')).sort().reverse() } }
+  return { props: { files: files.sort().reverse() } }
 }
 
 function formatDate(d) {
@@ -24,7 +24,7 @@ function formatDateAndTime(d) {
 const DateLink = ({date}) =>
   date ? <a href={`?date=${date}`}>{formatDate(date)}</a> : <span/>
 
-export default function Home({ dates }) {
+export default function Home({ files }) {
   const [date, setDate] = useState();
   const [title, setTitle]  = useState('סטטוס הקורונה בירוחם')
   useEffect(() => {
@@ -37,10 +37,11 @@ export default function Home({ dates }) {
     }
   })
 
-  const dateIndex = dates.indexOf(date)
+  const dates = files.map(f => f.replace(/\..+$/, ''))
+  const dateIndex = dates.indexOf(date) || 0
   const prevDate = dateIndex !== -1 && dateIndex < dates.length - 1 ? dates[dateIndex + 1] : null;
   const nextDate = dateIndex > 0 ? dates[dateIndex - 1] : null;
-  const imagePath = `/images/${date}.jpeg`
+  const imagePath = `/images/${files[dateIndex]}`
 
   return (
     <div className="container">

@@ -27,19 +27,24 @@ const DateLink = ({date}) =>
 export default function Home({ files }) {
   const [date, setDate] = useState();
   const [title, setTitle]  = useState('סטטוס הקורונה בירוחם')
+
+  const dates = files.map(f => f.replace(/\..+$/, ''))
+  let dateIndex = date && dates.findIndex(d => d.startsWith(date));
+  if (!dateIndex || dateIndex < 0) {
+    dateIndex = 0
+  }
+
   useEffect(() => {
     const dateParam = location.search.split(/[?&]/).map(p => p.split('=')).find(([key]) => key === 'date')
     if (dateParam) {
       setDate(dateParam[1])
-      setTitle(` סטטוס הקורונה בירוחם נכון לתאריך ${formatDateAndTime(dateParam[1])}`)
+      setTitle(` סטטוס הקורונה בירוחם נכון לתאריך ${formatDateAndTime(dates[dateIndex])}`)
     } else {
       setDate(dates[0])
     }
   })
 
-  const dates = files.map(f => f.replace(/\..+$/, ''))
-  const dateIndex = dates.indexOf(date) || 0
-  const prevDate = dateIndex !== -1 && dateIndex < dates.length - 1 ? dates[dateIndex + 1] : null;
+  const prevDate = dateIndex < dates.length - 1 ? dates[dateIndex + 1] : null;
   const nextDate = dateIndex > 0 ? dates[dateIndex - 1] : null;
   const imagePath = `/images/${files[dateIndex]}`
 
@@ -69,7 +74,7 @@ export default function Home({ files }) {
         <h1><a href="/">סטטוס הקורונה בירוחם</a></h1>
         {
           date ? <>
-        <h3>נכון לתאריך <span className={'date' + (dateIndex > 0 ? ' past' : '')}>{formatDateAndTime(date)}</span></h3>
+        <h3>נכון לתאריך <span className={'date' + (dateIndex > 0 ? ' past' : '')}>{formatDateAndTime(dates[dateIndex])}</span></h3>
         <nav>
           {prevDate && <span><DateLink date={prevDate}/>&nbsp;&#8658;</span>}
           {nextDate && <span>&#8656;&nbsp;<DateLink date={nextDate}/></span>}

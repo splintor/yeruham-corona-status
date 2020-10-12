@@ -18,7 +18,9 @@ const pad = n => ('0' + n).substr(-2)
 
 function formatDateAndTime(d) {
   const date = new Date(d)
-  return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${pad(date.getHours())}:${pad(date.getMinutes())}`
+  return date.getUTCHours() || date.getMinutes() ?
+    `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${pad(date.getHours())}:${pad(date.getMinutes())}` :
+    formatDate(d)
 }
 
 const DateLink = ({date}) =>

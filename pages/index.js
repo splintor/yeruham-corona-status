@@ -4,6 +4,7 @@ import path from 'path'
 import React, { useEffect, useState } from 'react';
 import GithubCorner from 'react-github-corner';
 
+// noinspection JSUnusedGlobalSymbols
 export async function getStaticProps() {
   const files = await fs.readdir(path.join(process.cwd(), 'public', 'images'))
   return { props: { files: files.sort().reverse() } }
@@ -26,6 +27,7 @@ function formatDateAndTime(d) {
 const DateLink = ({date}) =>
   date ? <a href={`?date=${date}`}>{formatDate(date)}</a> : <span/>
 
+// noinspection JSUnusedGlobalSymbols
 export default function Home({ files }) {
   const [date, setDate] = useState();
   const [title, setTitle]  = useState('סטטוס הקורונה בירוחם')
@@ -84,9 +86,6 @@ export default function Home({ files }) {
         <div className="content">
           <img src={imagePath}  alt="סטטוס הקורונה בירוחם"/>
         </div>
-        <div>
-          <img src="check-times.jpeg"/>
-        </div>
 
         <div className="description">
           הנתונים באתר מגיעים מרכזת הבריאות של המועצה ואמורים להיות מדויקים יותר מהנתונים שמתפרסמים ב<a href="https://datadashboard.health.gov.il/COVID-19/general">אתר משרד הבריאות</a> כיוון שבמועצה מעודכנים מי מהחולים באמת נמצא בירוחם ומי כבר החלים.
@@ -101,7 +100,7 @@ export default function Home({ files }) {
       </main>
 
       <style jsx>{`
-        h1 { margin: 10px 0 0 0; }}
+        h1 { margin: 10px 0 0 0; }
         h1 a {
           text-decoration: none;
           color: black;

@@ -92,7 +92,7 @@ export default function Home({ files }) {
           <br/>
           אפשר לראות <a href="https://lironcoil.wixsite.com/mysite-2">כאן</a> את רשימת המקומות שבהם שהו חולי קורונה בירוחם.
           <br/><b>
-          האתר מתוחזק ע"י <a href="mailto:splintor@gmail.com">שמוליק פלינט</a> ואינו קשור למועצה המקומית ירוחם.
+          האתר מתוחזק ע"י <a href="mailto:splintor@gmail.com">שמוליק פלינט</a> ואינו קשור ל<a href="https://www.facebook.com/מועצה-מקומית-ירוחם-1532181380387819">מועצה המקומית ירוחם</a>.
         </b>
         </div>
           </> : <h4>טוען...</h4>

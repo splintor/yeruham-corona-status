@@ -31,6 +31,7 @@ const DateLink = ({date}) =>
 export default function Home({ files }) {
   const [date, setDate] = useState();
   const [title, setTitle]  = useState('סטטוס הקורונה בירוחם')
+  const [showTests, setShowTests] = useState(true)
 
   const dates = files.map(f => f.replace(/\..+$/, ''))
   let dateIndex = date && dates.findIndex(d => d.startsWith(date));
@@ -40,13 +41,15 @@ export default function Home({ files }) {
 
   useEffect(() => {
     const dateParam = location.search.split(/[?&]/).map(p => p.split('=')).find(([key]) => key === 'date')
+    console.log('dateParam', dateParam);
     if (dateParam) {
+      setShowTests(dateParam[1] >= '2021-01-24')
       setDate(dateParam[1])
       setTitle(` סטטוס הקורונה בירוחם נכון לתאריך ${formatDateAndTime(dates[dateIndex])}`)
     } else {
       setDate(dates[0])
     }
-  })
+  }, [])
 
   const prevDate = dateIndex < dates.length - 1 ? dates[dateIndex + 1] : null;
   const nextDate = dateIndex > 0 ? dates[dateIndex - 1] : null;
@@ -84,7 +87,8 @@ export default function Home({ files }) {
           {nextDate && <span>&#8656;&nbsp;<DateLink date={nextDate}/></span>}
         </nav>
         <div className="content">
-          <img src={imagePath}  alt="סטטוס הקורונה בירוחם"/>
+          {showTests && <img src="/assets/tests-24-29.1.21.png" alt="בדיקות קורונה 24.1-29.1"/> }
+          <img src={imagePath} alt="סטטוס הקורונה בירוחם"/>
         </div>
 
         <div className="description">
@@ -133,6 +137,12 @@ export default function Home({ files }) {
           width: clamp(50vw, 400px, 100vw);
           display: flex;
           justify-content: space-around;
+        }
+        
+        .content img {
+          margin-block-start: 10px;
+          margin-inline-start: 15px;
+          margin-inline-end: 15px;
         }
         
         .description {

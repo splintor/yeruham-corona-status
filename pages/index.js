@@ -43,7 +43,7 @@ export default function Home({ files }) {
     const dateParam = location.search.split(/[?&]/).map(p => p.split('=')).find(([key]) => key === 'date')
     console.log('dateParam', dateParam);
     if (dateParam) {
-      setShowTests(dateParam[1] >= '2021-01-24')
+      setShowTests(dateParam[1] === dates[0])
       setDate(dateParam[1])
       setTitle(` סטטוס הקורונה בירוחם נכון לתאריך ${formatDateAndTime(dates[dateIndex])}`)
     } else {
@@ -54,6 +54,7 @@ export default function Home({ files }) {
   const prevDate = dateIndex < dates.length - 1 ? dates[dateIndex + 1] : null;
   const nextDate = dateIndex > 0 ? dates[dateIndex - 1] : null;
   const imagePath = `/images/${files[dateIndex]}`
+  const ImageLink = props => <div><a href={props.src}><img {...props}/></a></div>
 
   return (
     <div className="container">
@@ -87,8 +88,9 @@ export default function Home({ files }) {
           {nextDate && <span>&#8656;&nbsp;<DateLink date={nextDate}/></span>}
         </nav>
         <div className="content">
-          {showTests && <img src="/assets/tests-24-29.1.21.png" alt="בדיקות קורונה 24.1-29.1"/> }
-          <img src={imagePath} alt="סטטוס הקורונה בירוחם"/>
+          <ImageLink src={imagePath} alt="סטטוס הקורונה בירוחם"/>
+          {showTests && <ImageLink src="/assets/tests-28.1.21.png" alt="בדיקות קורונה 28.1"/> }
+          {showTests && <ImageLink src="/assets/tests-24-29.1.21.png" alt="בדיקות קורונה 24.1-29.1"/> }
         </div>
 
         <div className="description">
@@ -141,6 +143,7 @@ export default function Home({ files }) {
         
         .content img {
           margin-block-start: 10px;
+          margin-block-end: 5px;
           margin-inline-start: 15px;
           margin-inline-end: 15px;
         }
@@ -151,7 +154,7 @@ export default function Home({ files }) {
         
         main img {
           margin-block-start: 5px;
-          height: calc(100vh - 240px);
+          height: calc(100vh - 200px);
         }
       `}</style>
 

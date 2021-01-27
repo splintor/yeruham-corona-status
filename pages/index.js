@@ -140,20 +140,20 @@ export default function Home({ files }) {
           justify-content: space-around;
         }
         
+        .content {
+          text-align: center;
+        }
+        
         .content img {
           margin-block-start: 10px;
           margin-block-end: 5px;
           margin-inline-start: 15px;
           margin-inline-end: 15px;
+          height: calc(100vh - 200px);
         }
-        
+
         .description {
           width: clamp(35vw, 500px, 90vw);
-        }
-        
-        main img {
-          margin-block-start: 5px;
-          height: calc(100vh - 200px);
         }
       `}</style>
 

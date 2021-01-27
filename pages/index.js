@@ -62,6 +62,7 @@ export default function Home({ files }) {
         <meta property="og:title" content={title} key="pageTitle"/>
         <meta property="og:url" content="https://yeruham-corona-status.now.sh" key="url"/>
         <meta property="og:image" content={`https://yeruham-corona-status.now.sh/logo.png`} key="image"/>
+        <meta name="description" content="סטטוס הקורונה בירוחם - דף שמרכז את העדכונים על מספר החולים בקורונה בירוחם">
         <link rel="icon" href="/favicon.ico" />
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-180152901-1"/>
         <script

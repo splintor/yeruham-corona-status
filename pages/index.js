@@ -41,7 +41,6 @@ export default function Home({ files }) {
 
   useEffect(() => {
     const dateParam = location.search.split(/[?&]/).map(p => p.split('=')).find(([key]) => key === 'date')
-    console.log('dateParam', dateParam);
     if (dateParam) {
       setShowTests(dateParam[1] === dates[0])
       setDate(dateParam[1])

@@ -31,6 +31,7 @@ const DateLink = ({date}) =>
 export default function Home({ files }) {
   const [date, setDate] = useState();
   const [title, setTitle]  = useState('סטטוס הקורונה בירוחם')
+  // noinspection JSUnusedLocalSymbols
   const [showTests, setShowTests] = useState(true)
 
   const dates = files.map(f => f.replace(/\..+$/, ''))
@@ -53,7 +54,7 @@ export default function Home({ files }) {
   const prevDate = dateIndex < dates.length - 1 ? dates[dateIndex + 1] : null;
   const nextDate = dateIndex > 0 ? dates[dateIndex - 1] : null;
   const imagePath = `/images/${files[dateIndex]}`
-  const ImageLink = props => <div><a href={props.src}><img {...props}/></a></div>
+  const ImageLink = props => <div><a href={props.src}><!--suppress HtmlRequiredAltAttribute --><img {...props}/></a></div>
 
   return (
     <div className="container">
@@ -89,8 +90,6 @@ export default function Home({ files }) {
         </nav>
         <div className="content">
           <ImageLink src={imagePath} alt="סטטוס הקורונה בירוחם"/>
-          {showTests && <ImageLink src="/assets/tests-28.1.21.png" alt="בדיקות קורונה 28.1"/> }
-          {showTests && <ImageLink src="/assets/tests-24-29.1.21.png" alt="בדיקות קורונה 24.1-29.1"/> }
         </div>
 
         <div className="description">

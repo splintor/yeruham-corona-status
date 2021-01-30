@@ -54,7 +54,7 @@ export default function Home({ files }) {
   const prevDate = dateIndex < dates.length - 1 ? dates[dateIndex + 1] : null;
   const nextDate = dateIndex > 0 ? dates[dateIndex - 1] : null;
   const imagePath = `/images/${files[dateIndex]}`
-  const ImageLink = props => <div><a href={props.src}><!--suppress HtmlRequiredAltAttribute --><img {...props}/></a></div>
+  const ImageLink = props => <div><a href={props.src}><img alt={props.alt} {...props}/></a></div>
 
   return (
     <div className="container">

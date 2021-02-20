@@ -90,8 +90,6 @@ export default function Home({ files }) {
         </nav>
         <div className="content">
           <ImageLink src={imagePath} alt="סטטוס הקורונה בירוחם"/>
-          {showTests && <ImageLink src="/assets/tests-14-02-2021.jpeg" alt="14.2"/> }
-          {showTests && <ImageLink src="/assets/tests-15-02-2021.jpeg" alt="15.2"/> }
         </div>
 
         <div className="description">

@@ -4,12 +4,25 @@ import path from 'path'
 import React, { useEffect, useState } from 'react';
 import GithubCorner from 'react-github-corner';
 
+function fetchWithTimeout(url, timeout) { // https://stackoverflow.com/a/49857905/46635
+  return Promise.race([
+    fetch(url),
+    new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), timeout))
+  ]);
+}
+
 // noinspection JSUnusedGlobalSymbols
 export async function getStaticProps() {
   const files = await fs.readdir(path.join(process.cwd(), 'public', 'images'))
-  const ramzorResponse = await fetch('https://corona.health.gov.il/umbraco/surface/Traffic/AreaGetSuggestions/?culture=he-IL&query=%D7%99%D7%A8%D7%95%D7%97%D7%9D')
-  const ramzorJson = await ramzorResponse.json()
-  return { props: { files: files.sort().reverse(), ramzorData: ramzorJson.suggestions[0] || {} } }
+  let ramzorData
+  try {
+    const ramzorResponse = await fetchWithTimeout('https://corona.health.gov.il/umbraco/surface/Traffic/AreaGetSuggestions/?culture=he-IL&query=%D7%99%D7%A8%D7%95%D7%97%D7%9D', 500)
+    const ramzorJson = await ramzorResponse.json()
+    ramzorData = ramzorJson.suggestions[0] || {}
+  } catch {
+    ramzorData = {}
+  }
+  return { props: { files: files.sort().reverse(), ramzorData } }
 }
 
 function formatDate(d) {
@@ -90,7 +103,7 @@ export default function Home({ files, ramzorData }) {
             <h3>נכון לתאריך <span
               className={'date' + (dateIndex > 0 ? ' past' : '')}>{formatDateAndTime(dates[dateIndex])}</span></h3>
             {showTests &&
-            <h2>{ramzorData.value} <a href="https://corona.health.gov.il/ramzor/">{ramzorData.data.areaNameHE}</a></h2>}
+            <h2>{ramzorData.value} <a href="https://corona.health.gov.il/ramzor/">{ramzorData.data?.areaNameHE}</a></h2>}
             <nav>
               {prevDate && <span><DateLink date={prevDate}/>&nbsp;&#8658;</span>}
               {nextDate && <span>&#8656;&nbsp;<DateLink date={nextDate}/></span>}
@@ -132,7 +145,7 @@ export default function Home({ files, ramzorData }) {
           margin-block-end: 8px;
           margin-block-start: -10px;
           padding: 10px;
-          background-color: ${ramzorData.data.colorHex}
+          background-color: ${ramzorData.data?.colorHex}
         }
 
         .date {

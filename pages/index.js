@@ -16,7 +16,7 @@ export async function getStaticProps() {
   const files = await fs.readdir(path.join(process.cwd(), 'public', 'images'))
   let ramzorData
   try {
-    const ramzorResponse = await fetchWithTimeout('https://corona.health.gov.il/umbraco/surface/Traffic/AreaGetSuggestions/?culture=he-IL&query=%D7%99%D7%A8%D7%95%D7%97%D7%9D', 500)
+    const ramzorResponse = await fetchWithTimeout('https://corona.health.gov.il/umbraco/surface/Traffic/AreaGetSuggestions/?culture=he-IL&query=%D7%99%D7%A8%D7%95%D7%97%D7%9D', 2000)
     const ramzorJson = await ramzorResponse.json()
     ramzorData = ramzorJson.suggestions[0] || {}
   } catch {

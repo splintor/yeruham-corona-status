@@ -7,7 +7,9 @@ import GithubCorner from 'react-github-corner';
 // noinspection JSUnusedGlobalSymbols
 export async function getStaticProps() {
   const files = await fs.readdir(path.join(process.cwd(), 'public', 'images'))
-  return { props: { files: files.sort().reverse() } }
+  const ramzorResponse = await fetch('https://corona.health.gov.il/umbraco/surface/Traffic/AreaGetSuggestions/?culture=he-IL&query=%D7%99%D7%A8%D7%95%D7%97%D7%9D')
+  const ramzorJson = await ramzorResponse.json()
+  return { props: { files: files.sort().reverse(), ramzorData: ramzorJson.suggestions[0] || {} } }
 }
 
 function formatDate(d) {
@@ -28,7 +30,7 @@ const DateLink = ({ date }) =>
   date ? <a href={`?date=${date}`}>{formatDate(date)}</a> : <span/>
 
 // noinspection JSUnusedGlobalSymbols
-export default function Home({ files }) {
+export default function Home({ files, ramzorData }) {
   const [date, setDate] = useState();
   const [title, setTitle] = useState('סטטוס הקורונה בירוחם')
   // noinspection JSUnusedLocalSymbols
@@ -87,6 +89,8 @@ export default function Home({ files }) {
           date ? <>
             <h3>נכון לתאריך <span
               className={'date' + (dateIndex > 0 ? ' past' : '')}>{formatDateAndTime(dates[dateIndex])}</span></h3>
+            {showTests &&
+            <h2>{ramzorData.value} <a href="https://corona.health.gov.il/ramzor/">{ramzorData.data.areaNameHE}</a></h2>}
             <nav>
               {prevDate && <span><DateLink date={prevDate}/>&nbsp;&#8658;</span>}
               {nextDate && <span>&#8656;&nbsp;<DateLink date={nextDate}/></span>}
@@ -123,6 +127,14 @@ export default function Home({ files }) {
           text-decoration: none;
           color: black;
         }
+
+        h2 {
+          margin-block-end: 8px;
+          margin-block-start: -10px;
+          padding: 10px;
+          background-color: ${ramzorData.data.colorHex}
+        }
+
         .date {
           font-weight: bold;
         }

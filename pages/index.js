@@ -102,8 +102,8 @@ export default function Home({ files, ramzorData }) {
           date ? <>
             <h3>נכון לתאריך <span
               className={'date' + (dateIndex > 0 ? ' past' : '')}>{formatDateAndTime(dates[dateIndex])}</span></h3>
-            {showTests &&
-            <h2>{ramzorData.value} <a href="https://corona.health.gov.il/ramzor/">{ramzorData.data?.areaNameHE}</a></h2>}
+            {showTests && ramzorData.data &&
+            <h2>{ramzorData.value} <a href="https://corona.health.gov.il/ramzor/">{ramzorData.data.areaNameHE}</a></h2>}
             <nav>
               {prevDate && <span><DateLink date={prevDate}/>&nbsp;&#8658;</span>}
               {nextDate && <span>&#8656;&nbsp;<DateLink date={nextDate}/></span>}
@@ -145,7 +145,7 @@ export default function Home({ files, ramzorData }) {
           margin-block-end: 8px;
           margin-block-start: -10px;
           padding: 10px;
-          background-color: ${ramzorData.data?.colorHex}
+          background-color: ${ramzorData.data && ramzorData.data.colorHex || 'initial'}
         }
 
         .date {

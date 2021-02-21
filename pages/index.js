@@ -24,13 +24,13 @@ function formatDateAndTime(d) {
     formatDate(d)
 }
 
-const DateLink = ({date}) =>
+const DateLink = ({ date }) =>
   date ? <a href={`?date=${date}`}>{formatDate(date)}</a> : <span/>
 
 // noinspection JSUnusedGlobalSymbols
 export default function Home({ files }) {
   const [date, setDate] = useState();
-  const [title, setTitle]  = useState('סטטוס הקורונה בירוחם')
+  const [title, setTitle] = useState('סטטוס הקורונה בירוחם')
   // noinspection JSUnusedLocalSymbols
   const [showTests, setShowTests] = useState(true)
 
@@ -63,8 +63,9 @@ export default function Home({ files }) {
         <meta property="og:title" content={title} key="pageTitle"/>
         <meta property="og:url" content="https://yeruham-corona-status.now.sh" key="url"/>
         <meta property="og:image" content={`https://yeruham-corona-status.now.sh/logo.png`} key="image"/>
-        <meta name="description" content="סטטוס הקורונה בירוחם - דף שמרכז את העדכונים על מספר החולים בקורונה בירוחם" key="description"/>
-        <link rel="icon" href="/favicon.ico" />
+        <meta name="description" content="סטטוס הקורונה בירוחם - דף שמרכז את העדכונים על מספר החולים בקורונה בירוחם"
+              key="description"/>
+        <link rel="icon" href="/favicon.ico"/>
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-180152901-1"/>
         <script
           dangerouslySetInnerHTML={{
@@ -79,48 +80,57 @@ export default function Home({ files }) {
       </Head>
 
       <main>
-        <GithubCorner href="https://github.com/splintor/yeruham-corona-status" size={40} target="YerhuamCoronaStatusGitHubProject"/>
+        <GithubCorner href="https://github.com/splintor/yeruham-corona-status" size={40}
+                      target="YerhuamCoronaStatusGitHubProject"/>
         <h1><a href="/">סטטוס הקורונה בירוחם</a></h1>
         {
           date ? <>
-        <h3>נכון לתאריך <span className={'date' + (dateIndex > 0 ? ' past' : '')}>{formatDateAndTime(dates[dateIndex])}</span></h3>
-        <nav>
-          {prevDate && <span><DateLink date={prevDate}/>&nbsp;&#8658;</span>}
-          {nextDate && <span>&#8656;&nbsp;<DateLink date={nextDate}/></span>}
-        </nav>
-        <div className="content">
-          <ImageLink src={imagePath} alt="סטטוס הקורונה בירוחם"/>
-        </div>
+            <h3>נכון לתאריך <span
+              className={'date' + (dateIndex > 0 ? ' past' : '')}>{formatDateAndTime(dates[dateIndex])}</span></h3>
+            <nav>
+              {prevDate && <span><DateLink date={prevDate}/>&nbsp;&#8658;</span>}
+              {nextDate && <span>&#8656;&nbsp;<DateLink date={nextDate}/></span>}
+            </nav>
+            <div className="content">
+              <ImageLink src={imagePath} alt="סטטוס הקורונה בירוחם"/>
+            </div>
 
-        <div className="description">
-          הנתונים באתר מגיעים מרכזת הבריאות של המועצה ואמורים להיות מדויקים יותר מהנתונים שמתפרסמים ב<a href="https://datadashboard.health.gov.il/COVID-19/general">אתר משרד הבריאות</a> כיוון שבמועצה מעודכנים מי מהחולים באמת נמצא בירוחם ומי כבר החלים.
-          <br/>
-          באתר <a href="https://corona.health.gov.il/ramzor/">רמזור רשויות מקומיות</a> של משרד הבריאות אפשר לראות את הצבע הנוכחי של ירוחם ע"פ החלטות הקבינט המעודכנות.
-          <br/>
-          אפשר לראות <a href="https://lironcoil.wixsite.com/mysite-2">כאן</a> את רשימת המקומות שבהם שהו חולי קורונה בירוחם.
-          <br/><b>
-          האתר מתוחזק ע"י <a href="mailto:splintor@gmail.com">שמוליק פלינט</a> ואינו קשור ל<a href="https://www.facebook.com/מועצה-מקומית-ירוחם-1532181380387819">מועצה המקומית ירוחם</a>.
-        </b>
-        </div>
+            <div className="description">
+              הנתונים באתר מגיעים מרכזת הבריאות של המועצה ואמורים להיות מדויקים יותר מהנתונים שמתפרסמים ב<a
+              href="https://datadashboard.health.gov.il/COVID-19/general">אתר משרד הבריאות</a> כיוון שבמועצה מעודכנים מי
+              מהחולים באמת נמצא בירוחם ומי כבר החלים.
+              <br/>
+              באתר <a href="https://corona.health.gov.il/ramzor/">רמזור רשויות מקומיות</a> של משרד הבריאות אפשר לראות את
+              הצבע הנוכחי של ירוחם ע"פ החלטות הקבינט המעודכנות.
+              <br/>
+              אפשר לראות <a href="https://lironcoil.wixsite.com/mysite-2">כאן</a> את רשימת המקומות שבהם שהו חולי קורונה
+              בירוחם.
+              <br/><b>
+              האתר מתוחזק ע"י <a href="mailto:splintor@gmail.com">שמוליק פלינט</a> ואינו קשור ל<a
+              href="https://www.facebook.com/מועצה-מקומית-ירוחם-1532181380387819">מועצה המקומית ירוחם</a>.
+            </b>
+            </div>
           </> : <h4>טוען...</h4>
         }
       </main>
 
       <style jsx>{`
-        h1 { margin: 10px 0 0 0; }
+        h1 {
+          margin: 10px 0 0 0;
+        }
+
         h1 a {
           text-decoration: none;
           color: black;
         }
-        
         .date {
           font-weight: bold;
         }
-        
+
         .past.date {
           color: red;
         }
-        
+
         .container {
           min-height: 100vh;
           padding: 0 0.5rem;
@@ -128,24 +138,24 @@ export default function Home({ files }) {
           flex-direction: column;
           align-items: center;
         }
-        
+
         main {
           flex: 1;
           display: flex;
           flex-direction: column;
           align-items: center;
         }
-        
+
         nav {
           width: clamp(50vw, 400px, 100vw);
           display: flex;
           justify-content: space-around;
         }
-        
+
         .content {
           text-align: center;
         }
-        
+
         .content img {
           margin-block-start: 10px;
           margin-block-end: 5px;
@@ -166,8 +176,8 @@ export default function Home({ files }) {
           padding: 0;
           margin: 0;
           font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-            Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-            sans-serif;
+          Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
+          sans-serif;
         }
 
         * {

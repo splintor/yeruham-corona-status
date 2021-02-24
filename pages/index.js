@@ -6,7 +6,7 @@ import GithubCorner from 'react-github-corner';
 
 function fetchWithTimeout(url, timeout) { // https://stackoverflow.com/a/49857905/46635
   return Promise.race([
-    fetch(url),
+    fetch(url, { cache: 'no-cache' }),
     new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), timeout))
   ]);
 }
